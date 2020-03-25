@@ -9,6 +9,8 @@ from django.utils.http import is_safe_url
 from django.utils.html import strip_tags
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import FormView
+from django.utils.decorators import method_decorator
+from honeypot.decorators import check_honeypot
 
 from .forms import FormBuilder
 from .models import FormDefinition
@@ -22,6 +24,7 @@ except ImportError:
     from .compat import JsonResponse
 
 
+@method_decorator(check_honeypot, name='dispatch')
 class FormSubmission(FormView):
     form_class = FormBuilder
     http_method_names = ['post']

@@ -1,4 +1,4 @@
-{% load cms_tags  djangocms_forms_tags i18n sekizai_tags staticfiles %}
+{% load cms_tags  djangocms_forms_tags i18n sekizai_tags staticfiles honeypot %}
 <div class="forms" id="{{ instance.form_id }}">
 	{% if instance.title %}
 		<h3 class="title">{{ instance.title }}</h3>
@@ -32,6 +32,7 @@
 			{% for hidden in form.hidden_fields %}
 				{{ hidden }}
 			{% endfor %}
+			{% render_honeypot_field %}
 			<div class="button-wrapper submit">
 				<button class="form-button" type="submit" value="{{ instance.submit_btn_txt }}">{{ instance.submit_btn_txt }}</button>
 			</div>
@@ -47,13 +48,6 @@
 	</div>
 </div>
 
-{% addtoblock "css" %}
-    {% if instance.use_honeypot %}
-        <style type="text/css">
-            .visuallyhidden { border: 0; clip: rect(0 0 0 0); height: 1px; margin: -1px; overflow: hidden; padding: 0; position: absolute; width: 1px; }
-        </style>
-    {% endif %}
-{% endaddtoblock %}
 {% addtoblock "js" %}
     {% if instance.use_recaptcha %}
         <script src="https://www.google.com/recaptcha/api.js?onload=reCapctchaOnloadCallback&render=explicit" async defer></script>

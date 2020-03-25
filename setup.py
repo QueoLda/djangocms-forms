@@ -37,6 +37,8 @@ setup(
     install_requires=[
         'django-appconf',
         'django-ipware',
+        'django-honeypot',
+        'Django>=2.0',
         'jsonfield',
         'unidecode',
         'tablib',

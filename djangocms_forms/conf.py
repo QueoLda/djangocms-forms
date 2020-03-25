@@ -52,7 +52,7 @@ class DjangoCMSFormsConf(AppConf):
 
     SPAM_PROTECTIONS = (
         (0, _('None')),
-        (1, _('Honeypot')),
+        # (1, _('Honeypot')), Honeypot is served via django-honeypot
         (2, _('ReCAPTCHA')),
     )
 
