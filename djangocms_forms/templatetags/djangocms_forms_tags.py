@@ -49,6 +49,9 @@ def is_honeypot(field):
 def is_required(field):
     return field.field.required
 
+@register.filter
+def is_textarea(field):
+    return isinstance(field.field.widget, forms.Textarea)
 
 @register.filter
 def classes(field):
