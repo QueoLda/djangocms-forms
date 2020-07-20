@@ -7,26 +7,25 @@ from django.utils.safestring import mark_safe
 
 
 class TelephoneInput(widgets.TextInput):
-    input_type = 'tel'
+    input_type = "tel"
 
 
 class SearchInput(widgets.TextInput):
-    input_type = 'search'
+    input_type = "search"
 
 
 class DateInput(widgets.TextInput):
-    input_type = 'date'
+    input_type = "date"
 
 
 class TimeInput(widgets.TextInput):
-    input_type = 'time'
+    input_type = "time"
 
 
 class ReCaptchaWidget(widgets.Widget):
-
-    def render(self, name, value, attrs=None):
+    def render(self, name, value, attrs=None, renderer=None):
         template = '<div class="g-recaptcha" id="%(widget_id)s"></div>'
-        return mark_safe(template % {'widget_id': 'id_%s' % name})
+        return mark_safe(template % {"widget_id": "id_%s" % name})
 
-    def value_from_datadict(self, data, files, name):
-        return (data.get('g-recaptcha-response', None), )
+    def value_from_datadict(self, data, files, name, renderer=None):
+        return (data.get("g-recaptcha-response", None),)
