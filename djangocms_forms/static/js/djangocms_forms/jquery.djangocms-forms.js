@@ -29,12 +29,11 @@
         this.settings = $.extend({}, defaults, options);
         this._defaults = defaults;
         this._name = cmsForms;
-
-        this.init();
+        this.init(this.settings);
     }
 
     CMSForms.prototype = {
-        init: function () {
+        init: function (settings) {
             this.form = this.getForm();
             var ajaxOptions = {
                 type: 'POST',
@@ -48,23 +47,23 @@
 
             if (typeof (grecaptcha) == 'undefined') {
                 window.reCapctchaOnloadCallback = function () {
-                    setTimeout(this.renderReCaptcha, 500)
+                    setTimeout(this.renderReCaptcha, 500, settings);
                 }.bind(this);
             } else {
-                setTimeout(this.renderReCaptcha, 500)
+                setTimeout(this.renderReCaptcha, 500, settings);
             }
         },
         getForm: function () {
             return $('form', this.el);
         },
-        renderReCaptcha: function () {
+        renderReCaptcha: function (settings) {
             var that = this;
             $('.g-recaptcha').each(function () {
                 var widgetId = $(this).attr('id');
                 grecaptcha.render(widgetId, {
-                    sitekey: that.settings.reCaptchaSiteKey,
-                    size: that.settings.reCaptchaSize,
-                    theme: that.settings.reCaptchaTheme
+                    sitekey: settings.reCaptchaSiteKey,
+                    size: settings.reCaptchaSize,
+                    theme: settings.reCaptchaTheme
                 });
             });
         },
