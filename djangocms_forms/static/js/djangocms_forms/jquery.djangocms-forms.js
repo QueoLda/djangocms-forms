@@ -48,18 +48,10 @@
 
             if (typeof (grecaptcha) == 'undefined') {
                 window.reCapctchaOnloadCallback = function () {
-                    if (isNone(window.grecaptcha) || isNone(window.grecaptcha.render)) {
-                        later(() => {
-                            this.renderReCaptcha();
-                        }, 500);
-                    }
+                    setTimeout(this.renderReCaptcha, 500)
                 }.bind(this);
             } else {
-                if (isNone(window.grecaptcha) || isNone(window.grecaptcha.render)) {
-                    later(() => {
-                        this.renderReCaptcha();
-                    }, 500);
-                }
+                setTimeout(this.renderReCaptcha, 500)
             }
         },
         getForm: function () {
