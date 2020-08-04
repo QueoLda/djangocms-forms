@@ -20,6 +20,7 @@ from .fields import FormBuilderFileField, HoneyPotField, MultipleChoiceAutoCompl
 from .models import Form, FormDefinition, FormField, FormSubmission
 from .utils import int_to_hashid
 from .widgets import DateInput, TelephoneInput, TimeInput
+from .conf import settings
 
 
 class FormFieldInlineForm(forms.ModelForm):
@@ -117,7 +118,7 @@ class FormBuilder(forms.Form):
                     self.file_fields.append(field_name)
 
         if form_definition.use_honeypot:
-            self.fields['__toc__'] = HoneyPotField()
+            self.fields[settings.DJANGOCMS_FORMS_HONEYPOT_FIELD_NAME] = HoneyPotField()
         elif form_definition.use_recaptcha:
             field_name = 'recaptcha_%s' % int_to_hashid(form_definition.pk, min_length=8)
             self.fields[field_name] = ReCaptchaField(label=_('Are you a robot?'))
