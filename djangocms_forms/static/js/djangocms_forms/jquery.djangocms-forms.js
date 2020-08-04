@@ -2,6 +2,11 @@
 // scripts and/or other plugins which may not be closed properly.
 ; (function ($, window, document, undefined) {
 
+    var ajaxSuccessEvent = $.Event('ajaxSuccessEvent'),
+        ajaxErrorEvent = $.Event('ajaxErrorEvent'),
+        formValidEvent = $.Event('formValidEvent'),
+        formInvalidEvent = $.Event('formInvalidEvent');
+
     var cmsForms = 'cmsForms',
         defaults = {
             formWrapper: '.form-wrapper',
@@ -52,6 +57,7 @@
             } else {
                 setTimeout(this.renderReCaptcha, 500, settings);
             }
+
         },
         getForm: function () {
             return $('form', this.el);
@@ -68,15 +74,16 @@
             });
         },
         ajaxSuccess: function (response) {
+            this.form.trigger(ajaxSuccessEvent);
             if (response.formIsValid) this.formValid(response);
             else this.formInvalid(response);
         },
         ajaxError: function () {
             this.resetForm();
-
             var formErrors = $(this.settings.errorList);
             $(this.settings.errorItem).html(this.settings.ajaxErrorMsg).appendTo(formErrors);
             this.form.find(this.settings.formErrors).append(formErrors).fadeIn('slow');
+            this.form.trigger(ajaxErrorEvent);
         },
         resetForm: function () {
             this.form.find(this.settings.formErrors).fadeOut().empty();
@@ -88,6 +95,7 @@
             }
         },
         formValid: function (response) {
+            this.form.trigger(formValidEvent);
             $(this.settings.formSuccess, this.el).fadeIn('slow');
             $(this.settings.formWrapper, this.el).slideUp('slow').remove();
             if (response.redirectUrl) {
@@ -98,6 +106,7 @@
         },
         formInvalid: function (response) {
             this.resetForm();
+            this.form.trigger(formInvalidEvent);
 
             $.each(response.errors, function (name, errorList) {
                 if (name == '__all__') {
