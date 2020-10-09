@@ -121,7 +121,7 @@ class FormPlugin(CMSPluginBase):
 
         form = FormBuilder(
             initial={'referrer': request.path_info}, form_definition=instance,
-            label_suffix='', auto_id='%s')
+            label_suffix='', auto_id='%s', use_required_attribute=settings.DJANGOCMS_FORMS_USE_HTML5_REQUIRED)
 
         redirect_delay = instance.redirect_delay or \
             getattr(settings, 'DJANGOCMS_FORMS_REDIRECT_DELAY', 1000)
